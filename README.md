@@ -58,6 +58,13 @@ Ternary sequences are the simplest non-binary case — rich enough to show struc
 - **Music/information dynamics** — track information content over time in a composition
 - **Agent behavior analysis** — is an agent's action sequence structured or random?
 
+## See Also
+- **ternary-entropy** — related
+- **ternary-mutual-info** — related
+- **ternary-chaos** — related
+- **ternary-fib** — related
+- **ternary-collatz** — related
+
 ## Install
 
 ```bash
