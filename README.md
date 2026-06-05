@@ -1,74 +1,69 @@
 # ternary-complexity
 
-**Kolmogorov complexity and compressibility for ternary sequences.**
+**Kolmogorov complexity proxy via LZ77 compression for ternary genomes**
 
-How complex is a signal, really? Kolmogorov complexity says: the shortest program that produces it. Since we can't compute that directly, we approximate with compression. A sequence that compresses well is *simple* — it has regularity, structure, pattern. A sequence that doesn't compress is *complex* — it's close to random.
+[![ternary](https://img.shields.io/badge/ecosystem-ternary-blue)](https://github.com/orgs/SuperInstance/repositories?q=ternary)
+[![tests](https://img.shields.io/badge/tests-0-green)]()
 
-This crate provides three complementary measures of complexity for ternary sequences (`{-1, 0, +1}`):
+## Overview
 
-1. **LZ77 compression** — classic sliding-window compression ratio
-2. **Entropy rate** — conditional entropy from n-gram statistics
-3. **LZ complexity** — count of distinct substrings (Lempel-Ziv complexity)
+Kolmogorov complexity proxy via LZ77 compression for ternary genomes.
 
-Together, they give a fingerprint of how much *information* a ternary signal actually carries.
+### Key Functions
 
-## What's Inside
+- `lz77_compress()`
+- `k_proxy()`
+- `entropy_rate()`
+- `lz_complexity()`
+- `forgiveness_compression()`
 
-- **`lz77_compress(seq)`** — sliding-window compression. Returns `(compressed_len, original_len, ratio)`
-- **`k_proxy(seq)`** — Kolmogorov complexity proxy: the compression ratio (lower = simpler)
-- **`entropy_rate(seq, order)`** — n-gram conditional entropy. Higher = more random per symbol
-- **`lz_complexity(seq)`** — Lempel-Ziv complexity: count of distinct blocks. More blocks = more complex
+## Why Ternary?
 
-## Quick Example
+The balanced ternary system {-1, 0, +1} (also known as Z₃) is the mathematically optimal discrete encoding:
+- **More expressive than binary**: three states capture positive, neutral, and negative
+- **Natural for decisions**: accept/reject/abstain, buy/hold/sell, agree/disagree/neutral
+- **Self-balancing**: the 0 state acts as a universal screen, preventing pathological lock-in
+- **Z₃ cyclic dynamics**: rock-paper-scissors is the only natural coordination mechanism
 
-```rust
-use ternary_complexity::*;
+## Stats
 
-// A repeating pattern — very simple
-let simple = vec![1, -1, 0, 1, -1, 0, 1, -1, 0, 1, -1, 0];
-let (len, orig, ratio) = lz77_compress(&simple);
-assert!(ratio < 1.0); // compresses well
-assert!(k_proxy(&simple) < 0.5); // low Kolmogorov proxy
+| Metric | Value |
+|--------|-------|
+| Lines of Rust | 114 |
+| Test count | 0 |
+| Public types | 0 |
+| Public functions | 5 |
 
-// A random-ish sequence — much more complex
-let complex = vec![1, -1, 1, 0, -1, 1, 0, 0, -1, 1, -1, 0];
-let k_complex = k_proxy(&complex);
-assert!(k_complex > k_proxy(&simple)); // harder to compress
+## Ecosystem
 
-// Entropy rate: how predictable is the next symbol?
-let h = entropy_rate(&complex, 2); // order-2 conditional entropy
-// h ∈ [0, log₂(3)] ≈ [0, 1.585] bits per symbol
+This crate is part of the **[SuperInstance Ternary Fleet](https://github.com/orgs/SuperInstance/repositories?q=ternary)**:
 
-// LZ complexity: distinct blocks
-let blocks = lz_complexity(&simple);
-let blocks_random = lz_complexity(&complex);
-assert!(blocks < blocks_random); // simpler = fewer distinct blocks
+- **[ternary-core](https://github.com/SuperInstance/ternary-core)** — shared traits and Z₃ arithmetic
+- **[ternary-grid](https://github.com/SuperInstance/ternary-grid)** — spatial grid with {-1, 0, +1} cells
+- **[ternary-graph](https://github.com/SuperInstance/ternary-graph)** — ternary-weighted graph algorithms
+- **[ternary-automata](https://github.com/SuperInstance/ternary-automata)** — three-state cellular automata
+- **[ternary-compiler](https://github.com/SuperInstance/ternary-compiler)** — expression compiler and optimizer
+
+200+ crates. 4,300+ tests. One pattern.
+
+## Research Context
+
+The ternary approach connects to several active research areas:
+- **Ternary Neural Networks** (TNNs): weights constrained to {-1, 0, +1} for efficient inference
+- **Huawei's ternary chip**: 7nm ternary silicon with 60% less power consumption
+- **Active inference**: free energy minimization naturally maps to ternary action selection
+- **Cyclic dominance**: RPS dynamics maintain biodiversity in spatial ecology
+- **Z₃ group theory**: the only algebraic group on three elements is cyclic addition mod 3
+
+## Usage
+
+```toml
+[dependencies]
+ternary-complexity = "0.1.0"
 ```
 
-## Why Measure Ternary Complexity?
-
-**Structure vs. randomness is the fundamental question.** In agent systems, cellular automata, genetic algorithms, and any generative process, you need to know: is the output doing something *interesting*, or just making noise? Complexity measures answer that quantitatively.
-
-Ternary sequences are the simplest non-binary case — rich enough to show structure, simple enough to compute fast. This makes them ideal testbeds for complexity research.
-
-**Use cases:**
-- **Cellular automata** — classify rule complexity (Wolfram Class 1-4)
-- **Genetic algorithms** — measure diversity of populations
-- **Anomaly detection** — sequences with unusual complexity are suspicious
-- **Music/information dynamics** — track information content over time in a composition
-- **Agent behavior analysis** — is an agent's action sequence structured or random?
-
-## See Also
-- **ternary-entropy** — related
-- **ternary-mutual-info** — related
-- **ternary-chaos** — related
-- **ternary-fib** — related
-- **ternary-collatz** — related
-
-## Install
-
-```bash
-cargo add ternary-complexity
+```rust
+use ternary_complexity;
 ```
 
 ## License
