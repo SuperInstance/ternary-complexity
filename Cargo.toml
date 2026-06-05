@@ -1,0 +1,6 @@
+[package]
+name = "ternary-complexity"
+version = "0.1.0"
+edition = "2021"
+description = "Kolmogorov complexity proxy via LZ77 compression for ternary genomes — compression ratio as K-proxy"
+license = "MIT"
